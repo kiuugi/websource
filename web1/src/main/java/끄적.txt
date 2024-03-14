@@ -65,3 +65,13 @@ jsp는 정해진 내장객체가 있음 => req, resp로 못바꿈
  1) HttpServletRequest request
  2) HttpServletResponse response
  3) JspWriter out
+
+
+
+
+
+
+HTTP 상태 오류
+	200 잘된거임
+	404 주소를 못찾음(파일명, 주소위치, 별칭, ...)
+	500 개발자 코드 잘못
