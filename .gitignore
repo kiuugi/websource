@@ -6,7 +6,7 @@
 *.class
 
 
-taget/
+target/
 
 # Log file
 *.log
