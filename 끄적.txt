@@ -18,7 +18,7 @@
  앞에서 배웠던 자바 개발 => Java SE(Standard Edition)
 
  EE(Enterprise Edition) : SE + 웹 어플리케이션 개발에 필요한 라이브러리 추가
-				JSP / Servlet
+				JSP / Servlet => (javax.servlet.http.HttpServlet)
  JSP / Servlet 개발 시 개발자가 해야 할 작업이 많음 ==> 스프링 프레임워크
 
 4. jsp.json => <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -32,3 +32,30 @@
 
 
 JSP(Java Server Page)
+ HTML + Java 코드 섞임
+
+ jsp == servlet
+Servlet / 같은 목적으로 만듬
+ Java 코드
+
+브라우저 화면단 작업 : html, jsp(자바코드를 사용), servlet(html 사용이 불편함 => 컨트롤러로 주로 사용)
+
+http://localhost:8080/web1/ => 요청 ==> http://localhost:8080/web1/index.jsp / index로 이름인애들은 따로 안적어줘도 바로 열림
+
+http://localhost:8080/web1/input.html 
+
+ CGI / 사용자의 요청에 따라서 응답하는 프로그램 작성 == > CGI(Common Gateway Interface)
+ - 사용자의 요청 가져오기
+ - (DB 작업)
+ - 요청에 응답
+
+CGI 무엇으로 만들 것인가? java, python, 닷네스 php
+
+pom.xml = maven 에서 쓰는 파일
+
+
+post 방식으로 넘어오는 한글 인코딩 처리가 필요함
+ req.setCharacterEncoding("utf-8");
+ 요소의 name 값을 가져옴 req.getParameter("id");, req.getParameter("name");
+
+자바코드는 브라우져가 해석 못함 => 톰켓이 자바코드를 해석해서 브라우져로 보내줌
