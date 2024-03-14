@@ -59,3 +59,19 @@ post 방식으로 넘어오는 한글 인코딩 처리가 필요함
  요소의 name 값을 가져옴 req.getParameter("id");, req.getParameter("name");
 
 자바코드는 브라우져가 해석 못함 => 톰켓이 자바코드를 해석해서 브라우져로 보내줌
+
+jsp는 정해진 내장객체가 있음 => req, resp로 못바꿈
+ JSP 내장객체
+ 1) HttpServletRequest request
+ 2) HttpServletResponse response
+ 3) JspWriter out
+
+
+
+
+
+
+HTTP 상태 오류
+	200 잘된거임
+	404 주소를 못찾음(파일명, 주소위치, 별칭, ...)
+	500 개발자 코드 잘못
