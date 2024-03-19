@@ -37,7 +37,7 @@ public class CartServlet extends HttpServlet {
         // session.setAttribute("product", product); 하나밖에 못담음
 
         // 페이지 이동-basket.jsp
-        resp.sendRedirect("/cart/basket.jsp");
+        resp.sendRedirect("/web1/cart/basket.jsp");
     }
 
     @Override

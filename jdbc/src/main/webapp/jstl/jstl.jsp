@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> --%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ include file="../include/header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- <c:url value="/jstl/jstl.jsp"/> --%>
@@ -10,24 +9,30 @@
         getAttribute("name") ==> ${name}
         getAttribute("loginDto"), <%=loginDto.getName()%> ==> ${loginDto.name}
  --%>
-<c:if test="${5<10}"> 
+<c:if test="${5 < 10}"> 
     <h4>5는 10보다 작다</h4>
 </c:if>
-<c:if test="${6+3=9}"> 
+
+<c:if test="${6 + 3 == 9}"> 
     <h4>6더하기 3은 9이다</h4>
 </c:if>
 
 <%-- c:choose : if ~ else 개념 --%>
 <c:choose>
-    <c:when test="${5+10 == 50}">"
+    <c:when test="${5 + 10 == 50}">"
         <h4>5+10은 50이다</h4>
     </c:when>
     <c:otherwise>
         <h4>5+10은 50이 아니다</h4>
     </c:otherwise>
 </c:choose>
+
 <%-- c:forEach --%>
 <c:forEach var="test" begin="1" end="10" step="2">
     <b>${test}</b>
 </c:forEach>
+
+<%-- c:out (==out.println) --%>
+<c:out value='${flag?"OK":"Error"}'></c:out>
+<c:out value='${flag?"OK":"Error"}'/>
 <%@ include file="../include/footer.jsp" %>
