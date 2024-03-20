@@ -4,7 +4,7 @@
 <%@ page import="dto.TodoDto"%>
 
 <%
-  TodoDto todo = (TodoDto)request.getAttribute("todo"); // object 형태로 넘어오니까 TodoDto로 타입변환
+  // TodoDto todo = (TodoDto)request.getAttribute("todo"); // object 형태로 넘어오니까 TodoDto로 타입변환
 %>
 <h1 class="mt-5">Todo View</h1>
 <form action="" method="post">
@@ -29,8 +29,8 @@
     <textarea class="form-control" id="description" rows="3" name="description" readonly >${todo.description}</textarea>
   </div>
   <div>
-      <a class="btn btn-primary" href='modifyPro.jsp?no=${todo.no}'>수정</a>
-      <a class="btn btn-success" href='<c:url value="/view/list.jsp"/>'>목록</a>
+      <a class="btn btn-primary" href='<c:url value="/modify?no=${todo.no}"/>'>수정</a>
+      <a class="btn btn-success" href='<c:url value="/list"/>'>목록</a>
   </div>
 </form>
 <%@ include file="../include/footer.jsp" %>

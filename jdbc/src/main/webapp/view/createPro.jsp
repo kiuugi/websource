@@ -23,6 +23,6 @@
 
 
     // 화면이동(list) // 화면이동할때는 가져갈 정보가 있는지 판단 후 이동 // 지금은 가져갈 거 없다
-    response.sendRedirect("list.jsp");
+    response.sendRedirect("list");
 
 %>

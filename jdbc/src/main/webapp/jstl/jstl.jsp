@@ -5,6 +5,8 @@
 <%-- c:if=> else 개념 없음 --%>
 <h1 class="mt-5">JSTL</h1>
 <%-- 
+    jstl : jsp를 java문법을 태크처럼 사용할 수 있다.
+    
     EL : jsp에서 사용
         getAttribute("name") ==> ${name}
         getAttribute("loginDto"), <%=loginDto.getName()%> ==> ${loginDto.name}

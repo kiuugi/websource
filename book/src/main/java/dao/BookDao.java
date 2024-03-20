@@ -8,9 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dto.TodoDto;
+import dto.BookDto;
 
-public class TodoDao {
+public class BookDao {
     private Connection con;
     private PreparedStatement pstmt;
     private ResultSet rs;
@@ -42,22 +42,22 @@ public class TodoDao {
         return con;
     }
 
-    // 3. sql 작업 = CRUD 메소드 구현
-    // 전체조회 - Read
-    public List<TodoDto> getList() {
-        List<TodoDto> list = new ArrayList<>();
+    // 3. CRUD / sql구문
+    // 전체조회
+    public List<BookDto> getList() {
+        List<BookDto> list = new ArrayList<>();
         con = getConnection();
-        String sql = "Select no, title, created_at, completed From Todotbl order by no desc";
+        String sql = "Select code, title, writer, price From booktbl order by code desc";
         try {
             pstmt = con.prepareStatement(sql);
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                TodoDto dto = new TodoDto();
-                dto.setNo(rs.getInt("no"));
+                BookDto dto = new BookDto();
+                dto.setCode(rs.getInt("code"));
                 dto.setTitle(rs.getString("title"));
-                dto.setCreatedAt(rs.getDate("created_at"));
-                dto.setCompleted(rs.getBoolean("completed"));
+                dto.setWriter(rs.getString("writer"));
+                dto.setPrice(rs.getInt("price"));
 
                 list.add(dto);
             }
@@ -67,27 +67,26 @@ public class TodoDao {
             close(con, pstmt, rs); // 밑에있는 close를 부른거임
         }
         return list;
-    };
+    }
 
-    // 하나 조회 -
-    public TodoDto getRow(String no) {
-        TodoDto dto = null;
-
+    // 단일 조회
+    public BookDto getRow(int code) {
+        BookDto dto = null;
         con = getConnection();
 
-        String sql = "Select * From Todotbl where no=?";
+        String sql = "Select * From booktbl where code=?";
         try {
             pstmt = con.prepareStatement(sql);
             // ? 해결
-            pstmt.setInt(1, Integer.parseInt(no));
+            pstmt.setInt(1, code);
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                dto = new TodoDto();
-                dto.setNo(rs.getInt("no"));
+                dto = new BookDto();
+                dto.setCode(rs.getInt("code"));
                 dto.setTitle(rs.getString("title"));
-                dto.setCreatedAt(rs.getDate("created_at"));
-                dto.setCompleted(rs.getBoolean("completed"));
+                dto.setWriter(rs.getString("writer"));
+                dto.setPrice(rs.getInt("price"));
                 dto.setDescription(rs.getString("description"));
             }
         } catch (SQLException e) {
@@ -96,20 +95,23 @@ public class TodoDao {
             close(con, pstmt, rs); // 밑에있는 close를 부른거임
         }
         return dto;
-    };
+    }
 
-    // 추가 - Create(Insert)
-    public int Insert(TodoDto inserDto) {
+    // 수정
+    public int update(BookDto updateDto) {
         int result = 0;
+
         con = getConnection();
-        String sql = "INSERT INTO TODOTBL(NO, title, description) VALUES (todo_seq.nextval, ?, ?)";
+
+        String sql = "update booktbl set price=? where code=?";
 
         try {
             pstmt = con.prepareStatement(sql);
 
             // ? 해결
-            pstmt.setString(1, inserDto.getTitle());
-            pstmt.setString(2, inserDto.getDescription());
+
+            pstmt.setInt(1, updateDto.getPrice());
+            pstmt.setInt(2, updateDto.getCode());
 
             result = pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -121,19 +123,22 @@ public class TodoDao {
         return result;
     }
 
-    // 수정 - Update
-    public int update(TodoDto inserDto) {
+    // 추가
+    public int insert(BookDto insertDto) {
         int result = 0;
+
         con = getConnection();
-        String sql = "UPDATE TODOTBL SET COMPLETED=? ,DESCRIPTION=? WHERE NO=?";
+        String sql = "INSERT INTO booktbl(code, title, writer, price, description) VALUES (?, ?, ?, ?, ?)";
 
         try {
             pstmt = con.prepareStatement(sql);
 
             // ? 해결
-            pstmt.setBoolean(1, inserDto.isCompleted());
-            pstmt.setString(2, inserDto.getDescription());
-            pstmt.setInt(3, inserDto.getNo());
+            pstmt.setInt(1, insertDto.getCode());
+            pstmt.setString(2, insertDto.getTitle());
+            pstmt.setString(3, insertDto.getWriter());
+            pstmt.setInt(4, insertDto.getPrice());
+            pstmt.setString(5, insertDto.getDescription());
 
             result = pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -145,23 +150,10 @@ public class TodoDao {
         return result;
     }
 
-    // 삭제 - delete
-    public int delete(String no) {
+    // 삭제
+    public int delete(int code) { // primary key 값을 가져왔음
         int result = 0;
-        con = getConnection();
-        String sql = "DELETE FROM todotbl WHERE NO=?";
 
-        try {
-            pstmt = con.prepareStatement(sql);
-
-            pstmt.setInt(1, Integer.parseInt(no));
-
-            result = pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            close(con, pstmt);
-        }
         return result;
     }
 
