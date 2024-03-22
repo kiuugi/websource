@@ -1,0 +1,10 @@
+<Context docBase="book_m2" path="" reloadable="true" >
+<!-- docBase = 프로젝트명으로 -->
+    <Resource name="jdbc/myoracle" auth="Container"
+              type="javax.sql.DataSource" driverClassName="oracle.jdbc.OracleDriver"
+              url="jdbc:oracle:thin:@127.0.0.1:1521:xe"
+              username="c##test2" password="test" maxTotal="20" maxIdle="10"
+              maxWaitMillis="-1"/>
+              <!-- DB connection을 DB서버에서 톰갯서버가 maxTotal만큼 받아둠 -->
+              <!-- connection 을 name="jdbc/myoracle" 요 장소에 보관하겠다~ 미리 connection을 받아두는 갯수는 maxTotal="20" maxIdle="10" -->
+</Context>
