@@ -4,7 +4,7 @@
 <form action='<c:url value="/delete.do" />' method="post">
     <div class="mb-3">
         <label for="code" class="form-label">code</label>
-        <input type="text" class="form-control" id="code" name="code">
+        <input type="text" class="form-control" id="code" name="code" placeholder="${param.code}">
         <small class="text-info">도서코드를 4자리로 입력해 주세요</small>
     </div>
     <div class="mb-3">

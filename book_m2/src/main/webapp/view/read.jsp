@@ -24,7 +24,7 @@
     </div>
     <div class="mb-3">
         <a href='<c:url value="/view/modify.jsp" />' class="btn btn-warning">수정</a>
-        <a href='<c:url value="/view/delete.jsp" />' class="btn btn-danger">삭제</a>
+        <a href='<c:url value="/view/delete.jsp?code=${dto.code}" />' class="btn btn-danger">삭제</a>
         <a href='<c:url value="/list.do" />' class="btn btn-primary">목록</a>
     </div>
 </form>
