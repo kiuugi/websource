@@ -301,14 +301,15 @@ public class BookDao {
         return result;
     }
 
-    public int leave(String userid) {
+    public int leave(MemberDto leaveDto) {
         int result = 0;
         con = getConnection();
-        String sql = "delete from membertbl where userid=?";
+        String sql = "delete from membertbl where userid=? and password=?";
 
         try {
             pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, userid);
+            pstmt.setString(1, leaveDto.getUserid());
+            pstmt.setString(2, leaveDto.getPassword());
             result = pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -317,6 +318,31 @@ public class BookDao {
         }
         return result;
 
+    }
+
+    public List<MemberDto> getMemberList() {
+        List<MemberDto> list = new ArrayList<>();
+        con = getConnection();
+        String sql = "Select userid, password, name, email From membertbl";
+        try {
+            pstmt = con.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                MemberDto dto = new MemberDto();
+                dto.setUserid(rs.getString("userid"));
+                dto.setPassword(rs.getString("password"));
+                dto.setName(rs.getString("name"));
+                dto.setEmail(rs.getString("email"));
+
+                list.add(dto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(con, pstmt, rs); // 밑에있는 close를 부른거임
+        }
+        return list;
     }
 
     // 4. 자원정리

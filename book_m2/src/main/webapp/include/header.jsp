@@ -143,7 +143,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link text-white">
+            <a href='<c:url value="/memberList.do" />' class="nav-link text-white">
               <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle" /></svg>
               고객관리
             </a>

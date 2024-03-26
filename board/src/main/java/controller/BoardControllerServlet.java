@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,21 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
 import action.ActionForward;
-import action.BookCreateAction;
-import action.BookDeleteAction;
-import action.BookLeaveAction;
-import action.BookListAction;
-import action.BookLoginAction;
-import action.BookLogoutAction;
-import action.BookMemberListAction;
-import action.BookModifyAction;
-import action.BookPasswordAction;
-import action.BookReadAction;
-import action.BookRegisterAction;
-import action.BookSearchAction;
+import action.BoardListAction;
+import action.BoardReadAction;
+import action.BoardSearchAction;
+import action.BoardWriteAction;
 
 @WebServlet("*.do")
-public class BookControllerServlet extends HttpServlet {
+@MultipartConfig(maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 50) // 파일 업로드 지원 // max값 지정 안하면 제한없음
+public class BoardControllerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 가져오는것에 대한 한글처리
@@ -39,42 +33,17 @@ public class BookControllerServlet extends HttpServlet {
 
         // cmd를 가지고 액션 생성
         Action action = null;
-        if (cmd.equals("/list.do")) {
-            action = new BookListAction("/view/list.jsp");
-            // 작업이 끝난 후 보여줄 페이지로 경로
+        if (cmd.equals("/qList.do")) {
+            action = new BoardListAction("/view/qna_board_list.jsp");
 
-        } else if (cmd.equals("/read.do")) {
-            action = new BookReadAction("/view/read.jsp");
-
-        } else if (cmd.equals("/create.do")) {
-            action = new BookCreateAction("/list.do");
-
-        } else if (cmd.equals("/delete.do")) {
-            action = new BookDeleteAction("/list.do");
-
-        } else if (cmd.equals("/modify.do")) {
-            action = new BookModifyAction("/read.do"); // update
+        } else if (cmd.equals("/qWrite.do")) {
+            action = new BoardWriteAction("/qList.do");
 
         } else if (cmd.equals("/search.do")) {
-            action = new BookSearchAction("/view/list.jsp");
+            action = new BoardSearchAction("/view/qna_board_list.jsp");
 
-        } else if (cmd.equals("/login.do")) {
-            action = new BookLoginAction("/list.do");
-
-        } else if (cmd.equals("/logout.do")) {
-            action = new BookLogoutAction("/");
-
-        } else if (cmd.equals("/register.do")) {
-            action = new BookRegisterAction("/view/login.jsp");
-
-        } else if (cmd.equals("/change.do")) {
-            action = new BookPasswordAction("/view/login.jsp");
-
-        } else if (cmd.equals("/leave.do")) {
-            action = new BookLeaveAction("/");
-
-        } else if (cmd.equals("/memberList.do")) {
-            action = new BookMemberListAction("/view/member.jsp");
+        } else if (cmd.equals("/qRead.do")) {
+            action = new BoardReadAction("/view/qna_board_view.jsp");
         }
 
         // 생성된 action에게 일 시키기(servlet(~Pro.jsp)이 해야했던 일)

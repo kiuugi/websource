@@ -28,5 +28,7 @@ public interface BookService {
 
     boolean register(MemberDto registerDto);
 
-    boolean leave(String userid);
+    boolean leave(MemberDto memberDto);
+
+    List<MemberDto> memberListAll();
 }
