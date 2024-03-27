@@ -37,7 +37,7 @@ public class BoardWriteAction implements Action {
             File uploadFile = new File(saveDir + File.separator + uuid + "_" + fileName);
 
             part.write(uploadFile.toString()); // 서버의 디스크에 파일 저장
-            insertDto.setAttach(uploadFile.toString());
+            insertDto.setAttach(uploadFile.getName());
         }
 
         System.out.println(insertDto);

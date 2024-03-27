@@ -1,13 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@include file="../include/header.jsp"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@include file="/include/header.jsp"%>
 <section class="content">
 	<div class="box box-primary">
 		<div class="box-header">
 			<h3 class="box-title">Board Reply</h3>
 		</div>
 		<div style="height:20px"></div>
-		<form action="" method="post" role="form">
+		<form action="<c:url value='/qReply.do'/>" method="post" role="form">
 			<div class="box-body">
 				<div class="form-group row">
 					<label for="name" class="col-sm-2 col-form-label">작성자</label>
@@ -19,13 +19,13 @@
 				<div class="form-group row">
 					<label for="title" class="col-sm-2 col-form-label">제목</label>
 					<div class="col-sm-10">
-						<input type="text" name="title" size="50" class="form-control" maxlength='100'  >
+						<input type="text" name="title" size="50" class="form-control" maxlength='100' value="Re:${row.title}" >
 					</div>
 				</div>
 				<div class="form-group row">
 					<label for="content" class="col-sm-2 col-form-label">내용</label>
 					<div class="col-sm-10">
-						<textarea name='content' cols='60' class="form-control" rows='15'></textarea>
+						<textarea name='content' cols='60' class="form-control" rows='15'>Re:${row.content}</textarea>
 					</div>
 				</div>
 				<div class="form-group row">
@@ -46,7 +46,12 @@
 				</div>
 				<div style="height:20px"></div>
 			</div>
+			<%-- 원본글 정보 --%>
+			<input type="hidden" name="re_ref" value="${row.re_ref}">
+			<input type="hidden" name="re_seq" value="${row.re_seq}">
+			<input type="hidden" name="re_lev" value="${row.re_lev}">
+			<input type="hidden" name="bno" value="${row.bno}">
 		</form>
 	</div>
 </section>
-<%@include file="../include/footer.jsp"%>
+<%@include file="/include/footer.jsp"%>

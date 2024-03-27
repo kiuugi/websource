@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@include file="../include/header.jsp"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@include file="/include/header.jsp"%>
 <!-- Main content -->
 <section class="content">
 	<div class="box box-primary">
@@ -31,7 +31,7 @@
 				<div class="form-group  row">
 					<label for="filename" class="col-sm-2 col-form-label">파일첨부</label>
 					<div class="col-sm-10">
-						${row.attach}
+						<a href="<c:url value='/view/download.jsp?fileName=${row.attach}'/>">${row.attach}</a>
 					</div>
 				</div>
 				<div style="height:10px"></div>
@@ -43,8 +43,12 @@
 				</div>
 				<div style="height:20px"></div>
 			</div>
+			
 		</form>
 	</div>
 </section>
-<script src="/js/view.js"></script>
-<%@include file="../include/footer.jsp"%>
+<script>
+	const bno = ${row.bno} // /js/read.js 여기 스크립트에서 쓰기위해 jsp에서 변수를 저장해둠 같은 스크립트라서 저장된 변수 사용가능
+</script>
+<script src="<c:url value='/js/read.js'/>"></script>
+<%@include file="/include/footer.jsp"%>

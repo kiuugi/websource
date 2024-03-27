@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%> <%@include file="../include/header.jsp"%>
+pageEncoding="UTF-8"%> 
+<%@include file="/include/header.jsp"%>
 <!-- Main content -->
 <section class="content">
   <div class="box box-primary">
@@ -93,4 +94,4 @@ pageEncoding="UTF-8"%> <%@include file="../include/header.jsp"%>
   <!-- /.box -->
 </section>
 <script src='<c:url value="/js/write.js" />'></script>
-<%@include file="../include/footer.jsp"%>
+<%@include file="/include/footer.jsp"%>

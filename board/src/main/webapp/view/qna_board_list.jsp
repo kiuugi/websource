@@ -43,7 +43,19 @@
 			<c:forEach var="dto" items="${list}">
 			<tr><!-- 리스트 목록 보여주기 -->
 				<td class='text-center'>${dto.bno}</td><!--번호-->
-				<td><a href="<c:url value='/qRead.do?bno=${dto.bno}'/>">${dto.title}</a></td><!--제목-->
+
+				<td>
+					<c:if test="${dto.re_lev!=0}">
+						<c:forEach begin="0" end="${dto.re_lev*1}">
+						<%-- re_lev 만큼 반복 --%>
+							&nbsp;
+							<%-- &nbsp; 공백 한칸 --%>
+						</c:forEach>
+					</c:if>
+
+					<a href="<c:url value='/qRead.do?bno=${dto.bno}'/>">${dto.title}</a>
+				
+				</td><!--제목-->
 				<td class='text-center'>${dto.name}</td><!--작성자-->
 				<td class='text-center'>${dto.regDate}</td><!--날짜-->
 				<td class='text-center'><span class="badge badge-pill badge-primary">${dto.read_count}</span></td>
