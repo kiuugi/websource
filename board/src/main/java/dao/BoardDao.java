@@ -12,6 +12,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import dto.BoardDto;
+import dto.SearchDto;
 
 public class BoardDao {
     private Connection con;
@@ -47,13 +48,65 @@ public class BoardDao {
     }
 
     // 3. DB CRUD
-    // 전체 리스트 가져오기
-    public List<BoardDto> getList() {
-        List<BoardDto> list = new ArrayList<>();
+
+    // 전체 게시물 개수 가져오기
+    public int getRows(String criteria, String keyword) {
+        int total = 0;
         con = getConnection();
-        String sql = "SELECT bno, TITLE, name, REGDATE , READ_COUNT , RE_LEV  FROM BOARD  ORDER BY RE_REF DESC, RE_SEQ ASC";
+        String sql = "";
         try {
-            pstmt = con.prepareStatement(sql);
+            if (criteria.isEmpty()) {
+                sql += "SELECT  COUNT(bno) FROM BOARD";
+                pstmt = con.prepareStatement(sql);
+            } else {
+                sql += "SELECT  COUNT(*) FROM BOARD WHERE " + criteria + " LIKE ?";
+                pstmt = con.prepareStatement(sql);
+                pstmt.setString(1, "%" + keyword + "%");
+            }
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(con, pstmt, rs);
+        }
+        return total;
+    }
+
+    // 전체 리스트 가져오기
+    public List<BoardDto> getList(SearchDto searchDto) {
+        List<BoardDto> list = new ArrayList<>();
+
+        con = getConnection();
+        int start = searchDto.getPage() * searchDto.getAmount();
+        int end = (searchDto.getPage() - 1) * searchDto.getAmount();
+
+        String sql = "SELECT bno, TITLE, name, REGDATE , READ_COUNT , RE_LEV ";
+        sql += "FROM (SELECT rownum AS rnum, A.* ";
+        sql += "FROM (SELECT rownum, bno, TITLE, name, REGDATE , READ_COUNT , RE_LEV ";
+        sql += "FROM BOARD  WHERE bno > 0 ";
+        try {
+            if (searchDto.getCriteria().isEmpty()) { // 검색 옵션이 선택 안되있을때
+
+                sql += "ORDER BY RE_REF DESC, RE_SEQ ASC) A ";
+                sql += "WHERE rownum <= ?) WHERE rnum > ?";
+                pstmt = con.prepareStatement(sql);
+
+                pstmt.setInt(1, start);
+                pstmt.setInt(2, end);
+
+            } else {
+                sql += " and " + searchDto.getCriteria() + " like ?";
+                sql += "ORDER BY RE_REF DESC, RE_SEQ ASC) A ";
+                sql += "WHERE rownum <= ?) WHERE rnum > ?";
+                pstmt = con.prepareStatement(sql);
+
+                pstmt.setString(1, "%" + searchDto.getKeyword() + "%");
+                pstmt.setInt(2, start);
+                pstmt.setInt(3, end);
+            }
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -100,22 +153,19 @@ public class BoardDao {
     }
 
     // 게시글 검색
-    public List<BoardDto> searchList(String criteria, String keyword) {
+    public List<BoardDto> searchList(SearchDto searchDto) {
         List<BoardDto> list = new ArrayList<>();
         String sql = "";
         con = getConnection();
 
-        if (criteria.equals("title")) {
-            sql = "select bno, title, name, regdate, read_count from board where title=?";
-        } else if (criteria.equals("content")) {
-            sql = "select bno, title, name, regdate, read_count from board where content=?";
-        } else if (criteria.equals("name")) {
-            sql = "select bno, title, name, regdate, read_count from board where name=?";
-        }
+        sql = "SELECT bno, TITLE, name, REGDATE , READ_COUNT , RE_LEV ";
+        sql += "FROM BOARD ";
+        sql += "WHERE " + searchDto.getCriteria() + " like ? ";
+        sql += "ORDER BY RE_REF DESC, RE_SEQ ASC";
 
         try {
             pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, keyword);
+            pstmt.setString(1, "%" + searchDto.getKeyword() + "%");
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 BoardDto dto = new BoardDto();
@@ -124,6 +174,7 @@ public class BoardDao {
                 dto.setName(rs.getString(3));
                 dto.setRegDate(rs.getDate(4));
                 dto.setRead_count(rs.getInt(5));
+                dto.setRe_lev(rs.getInt(6));
 
                 list.add(dto);
             }
@@ -224,7 +275,7 @@ public class BoardDao {
 
             sql = "INSERT INTO board(bno, name, password, title, content, re_ref, re_lev, re_seq) values(board_seq.nextval, ?, ?, ?, ?, ?, ?, ?)";
             pstmt = con.prepareStatement(sql);
-
+            // 새로운 sql 이니까 다시 pstmt에 담음
             pstmt.setString(1, replyDto.getName());
             pstmt.setString(2, replyDto.getPassword());
             pstmt.setString(3, replyDto.getTitle());
@@ -233,6 +284,23 @@ public class BoardDao {
             pstmt.setInt(6, reLev + 1);
             pstmt.setInt(7, reSeq + 1);
 
+            result = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(con, pstmt);
+        }
+        return result;
+    }
+
+    // 조회수 업데이트
+    public int updateCount(int bno) {
+        int result = 0;
+        con = getConnection();
+        String sql = "UPDATE board SET read_count = READ_COUNT + 1 WHERE bno = ?";
+        try {
+            pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, bno);
             result = pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

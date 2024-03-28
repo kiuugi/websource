@@ -2,23 +2,23 @@ package action;
 
 import javax.servlet.http.HttpServletRequest;
 
-import dto.BoardDto;
 import lombok.AllArgsConstructor;
 import service.BoardService;
 import service.BoardServiceImpl;
 
 @AllArgsConstructor
-public class BoardReadAction implements Action {
+public class BoardUpdateCountAction implements Action {
     private String path;
 
     @Override
     public ActionForward execute(HttpServletRequest req) throws Exception {
+
         BoardService service = new BoardServiceImpl();
 
-        BoardDto row = service.read(Integer.parseInt(req.getParameter("bno")));
-        req.setAttribute("row", row);
+        service.updateCount(Integer.parseInt(req.getParameter("bno")));
 
-        return new ActionForward(path, false);
+        path += "?bno=" + Integer.parseInt(req.getParameter("bno"));
+        return new ActionForward(path, true);
     }
 
 }
