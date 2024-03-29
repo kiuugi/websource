@@ -51,6 +51,11 @@
 			<input type="hidden" name="re_seq" value="${row.re_seq}">
 			<input type="hidden" name="re_lev" value="${row.re_lev}">
 			<input type="hidden" name="bno" value="${row.bno}">
+			<%-- 페이지 나누기 정보 --%>
+			<input type="hidden" name="page" value="${searchDto.page}">
+			<input type="hidden" name="amount" value="${searchDto.amount}">
+			<input type="hidden" name="criteria" value="${searchDto.criteria}">
+			<input type="hidden" name="keyword" value="${searchDto.keyword}">
 		</form>
 	</div>
 </section>

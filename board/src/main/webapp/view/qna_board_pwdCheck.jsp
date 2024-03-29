@@ -18,6 +18,10 @@
 				</div>
 			</div>
 			<input type="hidden" name="bno" value='<%=request.getParameter("bno")%>'>
+			<input type="hidden" name="page" value='<%=request.getParameter("page")%>'>
+			<input type="hidden" name="amount" value='<%=request.getParameter("amount")%>'>
+			<input type="hidden" name="criteria" value='<%=request.getParameter("criteria")%>'>
+			<input type="hidden" name="keyword" value='<%=request.getParameter("keyword")%>'>
 			<%-- 이전 view에서 bno를 담고, 거기에 속해있는 read.js 에서 보내준 bno --%>
 		</form>
 	</div>

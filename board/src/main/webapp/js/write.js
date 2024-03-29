@@ -1,7 +1,19 @@
 // 폼이 비어있는지 확인
 
 document.querySelector("#list").addEventListener("click", (e) => {
-  location.href = "/qList.do";
+  // location.href =
+  //   "/qList.do?page=" +
+  //   document.querySelector("[name=page]").value +
+  //   "&amount=" +
+  //   document.querySelector("[name=amount]").value +
+  //   "&criteria=" +
+  //   document.querySelector("[name=criteria]").value +
+  //   "&keyword=" +
+  //   document.querySelector("[name=keyword]").value;
+  // 이렇게 해도 상관은 없을듯
+
+  // actionForm 보내기
+  document.querySelector("#actionForm").submit();
 });
 
 document.querySelector("#writeForm").addEventListener("submit", (e) => {

@@ -47,6 +47,13 @@
 		</form>
 	</div>
 </section>
+<form action="<c:url value='/qList.do'/>" method="get" id="actionForm">
+	<input type="hidden" name="page" value="${searchDto.page}">
+	<input type="hidden" name="amount" value="${searchDto.amount}">
+	<input type="hidden" name="criteria" value="${searchDto.criteria}">
+	<input type="hidden" name="keyword" value="${searchDto.keyword}">
+	<%-- <input type="hidden" name="bno" value="${dto.bno}"> --%>
+</form>
 <script>
 	const bno = ${row.bno} // /js/read.js 여기 스크립트에서 쓰기위해 jsp에서 변수를 저장해둠 같은 스크립트라서 저장된 변수 사용가능
 </script>

@@ -23,4 +23,8 @@ public interface BoardService {
     boolean updateCount(int bno);
 
     int getTotalRows(String criteria, String keyword);
+
+    boolean deleteAll(int reRef);
+
+    boolean pwdCheck(BoardDto passDto);
 }

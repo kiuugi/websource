@@ -227,10 +227,58 @@ public class BoardDao {
             pstmt.setInt(1, deleteDto.getBno());
             pstmt.setString(2, deleteDto.getPassword());
             result = pstmt.executeUpdate();
+            // if (deleteDto.getBno() == deleteDto.getRe_ref() && result == 1) {
+            // sql = "delete from board where re_ref=?";
+            // pstmt = con.prepareStatement(sql);
+            // pstmt.setInt(1, deleteDto.getRe_ref());
+            // pstmt.executeUpdate();
+            // }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             close(con, pstmt);
+        }
+        return result;
+    }
+
+    // bno와 password 받아서 비밀번호 확인 일치한다면
+    // deleteAll 호출
+
+    // 원본글 삭제
+    public int deleteAll(int reRef) {
+        // 부모 + 자식 모두제거
+        int result = 0;
+        con = getConnection();
+        String sql = "delete from board where re_ref=?";
+        try {
+            pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, reRef);
+            result = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(con, pstmt);
+        }
+        return result;
+    }
+
+    // 비밀번호 확인 // 비슷하게 댓글이 있는 부모글인지 확인도 될듯
+    public int pwdCheck(BoardDto passDto) {
+        int result = 0;
+        try {
+            con = getConnection();
+            String sql = "select count(*) from board where bno=? and password";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, passDto.getBno());
+            pstmt.setString(2, passDto.getPassword());
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                result = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close(con, pstmt, rs);
         }
         return result;
     }
